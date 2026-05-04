@@ -16,6 +16,7 @@ Invoke any skill with `/skill-name` in Claude Code.
 - **instrumentation** — Walks through building a metric tree: business outcomes, product outcomes, leading indicators.
 - **ai-moat** — Stress tests an idea's defensibility when AI compresses software costs to zero, then recommends pivots toward durable moats.
 - **ooda** — Decomposes a human role or workflow into OODA sub-functions, classifies which AI absorbs today and which stay irreducibly human, then points to where durable value accrues.
+- **uk-medical-device-check** — Checks whether a software feature would be classified as a UK medical device under MHRA / UK MDR 2002, and how to stay out of scope.
 
 ### Councils (Multi-Perspective Reviews)
 
