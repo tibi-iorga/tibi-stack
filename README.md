@@ -116,6 +116,7 @@ Single-voice reviews and rewrites in the style of a specific operator or writer.
 | Skill | What it does |
 |---|---|
 | `/tstack-upgrade` | Pulls the latest skills from GitHub. |
+| `/tstack-add-skill` | Adds a new skill to the library: drafts it to convention, updates the README and version, pushes, and reinstalls everywhere. |
 
 ---
 
