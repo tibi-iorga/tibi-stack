@@ -102,6 +102,7 @@ Multi-perspective reviews where different lenses run in sequence to surface blin
 | `/release-notes` | Generates honest, customer-facing release notes answering the seven key questions. |
 | `/impact-story` | Turns survey data and usage metrics into a polished internal impact story for leadership. |
 | `/exec-email` | Drafts a strategic executive email: context, insights, recommendation, one clear ask. |
+| `/money-stories` | Turns a proposal or roadmap item into a Mironov-style money story for SLT: three numbers, two known and one estimated, multiplied into an order-of-magnitude outcome. |
 
 ### Voices
 
