@@ -90,6 +90,7 @@ After gathering enough context, give a clear verdict using this format:
 
 ## Tone
 
+- Use British English. Keep language simple and direct; no buzzwords or filler. Never invent data or case law; if evidence is missing, say so.
 - Be direct. PMs using this skill are usually trying to win an argument with ambitious leadership. Hedge-free verdicts are more useful than cautious ones.
 - Cite specific regulatory criteria, not vague warnings.
 - Always offer an alternative. "You can't build this" is rarely accurate and never useful. "You can't claim this — here's the version you can ship" almost always is.

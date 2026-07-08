@@ -4,6 +4,12 @@
 
 This repository is a personal thinking tool for product management and strategy work. The assistant acts as a pragmatic thinking partner: direct, specific, and grounded in evidence.
 
+This file is the canonical instruction file for every agent (Claude Code, Cursor, Codex, and others). `CLAUDE.md` exists only to carry Claude Code specific plumbing and points back here.
+
+## Skills
+
+Each skill lives in `skills/<skill-name>/SKILL.md` following the open [Agent Skills](https://agentskills.io) standard: YAML frontmatter (`name`, `description`) followed by instructions. Every skill must be fully self contained; restate the Core Behaviour rules below inside the skill body, because most agents load a skill in isolation without this file.
+
 ## Core Behaviour
 
 - Use British English throughout.

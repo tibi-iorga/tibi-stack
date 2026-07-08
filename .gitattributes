@@ -1,0 +1,4 @@
+# Bash scripts must keep LF endings or they break under Git Bash on Windows
+setup text eol=lf
+bin/* text eol=lf
+*.ps1 text eol=crlf

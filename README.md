@@ -8,7 +8,7 @@ A thinking tool for building ideas. Slash commands for the kind of reasoning tha
 
 Good intuition is what is left over after you have thought through the same kind of problem many times. That is what experience actually is. tstack lets you run that kind of thinking on demand, against whatever idea is in front of you, instead of waiting for the reps to accumulate.
 
-Each skill is a structured way of thinking, packaged as a slash command for [Claude Code](https://claude.ai/code). You type `/sowhat` and get the So What ladder run five levels deep on whatever you paste in. You type `/carmack` and get a Carmack-voice critique of your draft. You type `/mentor-review` and get the same idea reviewed by six different operators in sequence. The skills are opinionated. They are not trying to be neutral.
+Each skill is a structured way of thinking, packaged as an [Agent Skill](https://agentskills.io) that works in whatever coding agent you already use: [Claude Code](https://claude.ai/code), [Cursor](https://cursor.com), OpenAI Codex, GitHub Copilot, and anything else that implements the open standard. You type `/sowhat` and get the So What ladder run five levels deep on whatever you paste in. You type `/carmack` and get a Carmack-voice critique of your draft. You type `/mentor-review` and get the same idea reviewed by six different operators in sequence. The skills are opinionated. They are not trying to be neutral.
 
 ---
 
@@ -32,29 +32,39 @@ Run `/1pager`, `/strategy-memo`, `/prd`, `/instrumentation`.
 
 ## Setup
 
-**Option 1: paste this into Claude Code**
+**Option 1: paste this into your agent**
 
-Open Claude Code and paste the following message into the chat:
+Open Claude Code, Cursor, Codex, or any agent that can run shell commands, and paste the following message into the chat:
 
 ```
 I want to install tstack from https://github.com/tibi-iorga/tstack. Please run the setup script:
 
-git clone https://github.com/tibi-iorga/tstack.git ~/.claude/skills/tstack && cd ~/.claude/skills/tstack && ./setup
+git clone https://github.com/tibi-iorga/tstack.git ~/.tstack && cd ~/.tstack && ./setup
+
+On Windows PowerShell, run ./setup.ps1 instead of ./setup.
 
 Then confirm how many skills were installed.
 ```
 
-Claude will clone the repo and run setup for you.
+The agent will clone the repo and run setup for you.
 
 **Option 2: run it yourself**
 
+macOS, Linux, or Git Bash:
+
 ```bash
-git clone https://github.com/tibi-iorga/tstack.git ~/.claude/skills/tstack && cd ~/.claude/skills/tstack && ./setup
+git clone https://github.com/tibi-iorga/tstack.git ~/.tstack && cd ~/.tstack && ./setup
 ```
 
-Requirements: [Claude Code](https://claude.ai/code) and Git.
+Windows PowerShell:
 
-The setup script clones the repo to `~/.claude/skills/tstack`, registers it in your `~/.claude/CLAUDE.md`, and installs each skill as `~/.claude/skills/<skill-name>/SKILL.md` following the native Claude Code convention. Restart Claude Code after setup.
+```powershell
+git clone https://github.com/tibi-iorga/tstack.git "$HOME/.tstack"; Set-Location "$HOME/.tstack"; ./setup.ps1
+```
+
+Requirements: Git and an agent that supports [Agent Skills](https://agentskills.io) (Claude Code, Cursor 2.4+, OpenAI Codex, GitHub Copilot, Gemini CLI).
+
+The setup script clones the repo to `~/.tstack`, then installs each skill as `<skills-dir>/<skill-name>/SKILL.md` in `~/.agents/skills/` (the cross-tool location) plus the tool-specific directories it finds on your machine (`~/.claude/skills/`, `~/.codex/skills/`). If you have an older tstack install at `~/.claude/skills/tstack`, setup migrates it and removes the old copy so skills are not registered twice. Restart your agent after setup.
 
 ---
 

@@ -7,8 +7,8 @@
 set -euo pipefail
 
 TSTACK_DIR="${TSTACK_DIR:-$(cd "$(dirname "$0")/.." && pwd)}"
-STATE_DIR="$HOME/.tstack"
-CACHE_FILE="$STATE_DIR/last-update-check"
+STATE_DIR="$TSTACK_DIR"
+CACHE_FILE="$STATE_DIR/.last-update-check"
 VERSION_FILE="$TSTACK_DIR/VERSION"
 REMOTE_URL="https://raw.githubusercontent.com/tibi-iorga/tstack/main/VERSION"
 

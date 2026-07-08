@@ -2,54 +2,90 @@
 
 set -e
 
-SKILLS_DIR="$HOME/.claude/skills"
-TIBI_DIR="$SKILLS_DIR/tstack"
+REPO_URL="https://github.com/tibi-iorga/tstack.git"
+TSTACK_DIR="${TSTACK_DIR:-$HOME/.tstack}"
+OLD_DIR="$HOME/.claude/skills/tstack"
 CLAUDE_MD="$HOME/.claude/CLAUDE.md"
-IMPORT_LINE="@~/.claude/skills/tstack/CLAUDE.md"
+IMPORT_LINE="@~/.tstack/CLAUDE.md"
+OLD_IMPORT_LINE="@~/.claude/skills/tstack/CLAUDE.md"
 
 echo ""
 echo "tstack setup"
 echo "------------"
 
-# Clone or update the repo
-if [ -d "$TIBI_DIR/.git" ]; then
+# Clone or update the repo at ~/.tstack
+if [ -d "$TSTACK_DIR/.git" ]; then
   echo "Updating tstack..."
-  cd "$TIBI_DIR" && git pull
+  git -C "$TSTACK_DIR" pull
 else
-  echo "Installing tstack..."
-  mkdir -p "$SKILLS_DIR"
-  git clone https://github.com/tibi-iorga/tstack.git "$TIBI_DIR"
+  # Older versions used ~/.tstack as an update-check cache directory.
+  # Move any non-repo directory aside so the clone can proceed.
+  if [ -d "$TSTACK_DIR" ]; then
+    mv "$TSTACK_DIR" "$TSTACK_DIR.bak-$(date +%s)"
+    echo "Moved existing non-repo $TSTACK_DIR aside"
+  fi
+  echo "Installing tstack to $TSTACK_DIR..."
+  git clone "$REPO_URL" "$TSTACK_DIR"
 fi
 
-# Add reference to ~/.claude/CLAUDE.md if not already there
-if [ -f "$CLAUDE_MD" ]; then
-  if grep -q "tstack" "$CLAUDE_MD"; then
+chmod +x "$TSTACK_DIR/bin/tstack-update-check" 2>/dev/null || true
+
+# Copy each skill into a skills directory
+install_skills() {
+  target="$1"
+  count=0
+  mkdir -p "$target"
+  for skill_dir in "$TSTACK_DIR/skills"/*/; do
+    skill_name=$(basename "$skill_dir")
+    mkdir -p "$target/$skill_name"
+    cp -R "$skill_dir." "$target/$skill_name/"
+    count=$((count + 1))
+  done
+  echo "Installed $count skills to $target"
+}
+
+# Canonical cross-tool location (Agent Skills standard, read by Cursor and others)
+install_skills "$HOME/.agents/skills"
+
+# Tool-specific locations, only where the tool is present
+if [ -d "$HOME/.claude" ]; then
+  install_skills "$HOME/.claude/skills"
+fi
+if [ -d "$HOME/.codex" ]; then
+  install_skills "$HOME/.codex/skills"
+fi
+
+# Register the global import for Claude Code
+if [ -d "$HOME/.claude" ]; then
+  if [ -f "$CLAUDE_MD" ] && grep -qF "$OLD_IMPORT_LINE" "$CLAUDE_MD"; then
+    grep -vF "$OLD_IMPORT_LINE" "$CLAUDE_MD" > "$CLAUDE_MD.tmp" && mv "$CLAUDE_MD.tmp" "$CLAUDE_MD"
+    echo "Removed old tstack import from ~/.claude/CLAUDE.md"
+  fi
+  if [ -f "$CLAUDE_MD" ] && grep -qF "$IMPORT_LINE" "$CLAUDE_MD"; then
     echo "tstack already registered in ~/.claude/CLAUDE.md"
   else
     echo "" >> "$CLAUDE_MD"
     echo "$IMPORT_LINE" >> "$CLAUDE_MD"
     echo "Registered tstack in ~/.claude/CLAUDE.md"
   fi
-else
-  mkdir -p "$HOME/.claude"
-  echo "$IMPORT_LINE" > "$CLAUDE_MD"
-  echo "Created ~/.claude/CLAUDE.md and registered tstack"
 fi
 
-# Make update check script executable
-chmod +x "$TIBI_DIR/bin/tstack-update-check" 2>/dev/null || true
-
-# Install each skill as ~/.claude/skills/<name>/SKILL.md
-count=0
-for skill_dir in "$TIBI_DIR/skills"/*/; do
-  skill_name=$(basename "$skill_dir")
-  target_dir="$SKILLS_DIR/$skill_name"
-  mkdir -p "$target_dir"
-  cp "$skill_dir/SKILL.md" "$target_dir/SKILL.md"
-  count=$((count + 1))
-done
-echo "Installed $count skills to ~/.claude/skills/"
-
 echo ""
-echo "Done. Restart Claude Code and type / to see all tstack skills."
+echo "Done. Restart your agent (Claude Code, Cursor, Codex) to pick up the skills."
 echo ""
+
+# Remove the old install location so skills are not registered twice.
+# Runs last so a failure here cannot break the install above.
+if [ -d "$OLD_DIR" ]; then
+  case "$PWD/" in
+    "$OLD_DIR"/*)
+      echo "Old install detected at ~/.claude/skills/tstack and it is your current directory."
+      echo "Remove it manually to avoid duplicate skills: cd ~ && rm -rf ~/.claude/skills/tstack"
+      ;;
+    *)
+      rm -rf "$OLD_DIR" 2>/dev/null && echo "Removed old install at ~/.claude/skills/tstack" || {
+        echo "Could not remove old install. Remove it manually: rm -rf ~/.claude/skills/tstack"
+      }
+      ;;
+  esac
+fi
