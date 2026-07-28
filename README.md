@@ -103,6 +103,7 @@ Multi-perspective reviews where different lenses run in sequence to surface blin
 | `/impact-story` | Turns survey data and usage metrics into a polished internal impact story for leadership. |
 | `/exec-email` | Drafts a strategic executive email: context, insights, recommendation, one clear ask. |
 | `/money-stories` | Turns a proposal or roadmap item into a Mironov-style money story for SLT: three numbers, two known and one estimated, multiplied into an order-of-magnitude outcome. |
+| `/pressure-test` | Runs the Stakeholder Pressure Test on a meeting before it happens: one decision, one decision-maker, the unstated objection, the low point, the one slide. Produces a pre-meeting brief and the changes to make. |
 
 ### Voices
 
