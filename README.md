@@ -28,6 +28,9 @@ Run `/carmack`, `/exec-email`, `/release-notes`.
 **Unstructured ideas.** You have a feeling, not a memo. Nothing concrete for anyone, including you, to react to.
 Run `/1pager`, `/strategy-memo`, `/prd`, `/instrumentation`.
 
+**Borrowed understanding.** You can repeat the argument but you could not defend it under questioning.
+Run `/socratic-quiz`.
+
 ---
 
 ## Setup
@@ -113,6 +116,12 @@ Single-voice reviews and rewrites in the style of a specific operator or writer.
 |---|---|
 | `/carmack` | Carmack-voice critique. Either edits a draft for clarity, honesty, and concreteness, or reviews a concept through a first-principles, what-do-you-actually-know lens. |
 
+### Learning
+
+| Skill | What it does |
+|---|---|
+| `/socratic-quiz` | Guides you to understanding one question at a time instead of explaining. Adapts to your level, never hands over the answer, ends with what you demonstrated and what to explore next. |
+
 ### Maintenance
 
 | Skill | What it does |
@@ -125,3 +134,7 @@ Single-voice reviews and rewrites in the style of a specific operator or writer.
 ## License
 
 MIT. See [LICENSE](LICENSE). Use it, fork it, change it, ship your own version.
+
+## Credits
+
+`/socratic-quiz` is adapted from the skill of the same name in [pchalasani/claude-code-tools](https://github.com/pchalasani/claude-code-tools), MIT licensed, Copyright (c) 2025 Prasad Chalasani.
